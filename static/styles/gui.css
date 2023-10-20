@@ -466,16 +466,35 @@ nav{
     animation: 0.3s opening forwards ease-in-out;
 }
 
+.closing{
+    overflow: hidden;
+    animation: 0.3s closing forwards ease-in-out;
+}
+
 @keyframes opening {
     from{
         max-height: 0px;
         opacity: 0.5;
-        translate: 0 -8px;
+        translate: 0 -16px;
     }
     to{
         max-height: 512px;
         opacity: 1;
         translate: 0 0px;
+    }    
+}
+
+@keyframes closing {
+    from{
+        max-height: 512px;
+        opacity: 1;
+        translate: 0 0px;
+    }
+    to{
+        max-height: 0px;
+        opacity: 0;
+        translate: 0 -32px;
+        
     }    
 }
 

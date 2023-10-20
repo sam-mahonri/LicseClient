@@ -51,8 +51,13 @@ function openPop(itemId, self){
         item.classList.add('opening')
         hoverAll.classList.remove('hideElement')
     }else{
-        item.classList.add('hideElement')
+        //item.classList.add('hideElement')
         item.classList.remove('opening')
+        item.classList.add('closing')
+        setTimeout(() => {
+            item.classList.remove('closing')
+            item.classList.add('hideElement')
+        }, 300);
         hoverAll.classList.add('hideElement')
     }
 }

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/gui.css">
+    <title>Licse You - Sign In</title>
+</head>
+<body>
+    <div class="htvBody" style="background-image: url('/static/source/background_furry_sunflower_cdnme.png'); background-size: cover;">
+        <div class="bannerBrand bannerAlone bannerExpand">
+            <img src="/static/source/icon.svg" height="456px">
+            <h1>Licse You</h1>
+            <h2></h2>
+            <h6>© 2023 Licse Project - by Sam Mahonri and IFSertãoPE</h6>
+        </div>
+        <div class="bannerAlone bannerExpand blurBack">
+            <div class="scrVertical scrSlave">
+                {% if status == 'LICSE_NONE' or status == 'LICSE_ERROR' %}
+                <form method="post" class="formAlone" action=""  onsubmit="showElement('loadingAuth')">
+                    {% if status == 'LICSE_ERROR'%}
+                        <span class="discretErrorMessage">Email/Senha podem estar incorretos - Ou estamos enfrentando algum problema no nosso servidor</span>
+                    {% endif %}
+
+                    {{ form.csrf_token }}
+                    <img src="/static/source/icon.svg" height="64px">
+                    <h2 style="margin-bottom: 32px;">Entrar</h2>
+                    <div class="campoFlutuante">
+                        
+                        <!--  <input type="email" name="email" placeholder="" required> -->
+                        <input type="email" id="email" name="email" value="{{ request.form.get('email', '') }}" class="{{ 'invalidInput' if form.email.errors else '' }}" placeholder="" required>
+                        <label>Seu email <i class="fa-solid fa-user"></i></label>
+                    </div>
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                            <div class="discretErrorMessage">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="campoFlutuante">
+                        
+                        <!-- <input type="password" name="password" placeholder="" required> -->
+                        <input type="password" id="password" name="password" value="{{ request.form.get('password', '') }}" class="{{ 'invalidInput' if form.password.errors else '' }}" placeholder="" required>
+                        <label>Sua senha <i class="fa-solid fa-key"></i></label>
+                    </div>
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <div class="discretErrorMessage">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <button type="submit" class="primaryBt">Entrar<i class="fa-solid fa-right-to-bracket"></i></button>
+                </form>
+                <!--  <button class="secondaryBt" style="margin-top: 16px;">Esqueci minha senha <i class="fa-solid fa-hippo"></i></button> -->
+                <label>Ainda não possui uma conta Licse You?</label>
+                <button class="secondaryBt" onclick="window.location.href = '/signup'">Cadastrar-se <i class="fa-solid fa-user-plus"></i></button>
+                {% endif %}
+                {% if status == 'LICSE_SUCCESS' or status == 'LICSE_ALREADY'%}
+                    
+                    {% if status == 'LICSE_SUCCESS'%}
+                        <img src="/static/source/success_icon.svg">
+                        <div>Bem-vindo ao Licse You novamente!</div>
+                        <h3> {{ userinfo.get('fullName', '') }} </h3>
+                        <button class="primaryBt" onclick="window.location.href = '/'">Ir ao ambiente<i class="fa-solid fa-right-to-bracket"></i></button>
+                    {% endif %}
+                    {% if status == 'LICSE_ALREADY'%}
+                        <img src="/static/source/why_icon.svg">
+                        <div>Você já entrou no Licse You. O que faz aqui?</div>
+                        <button class="primaryBt" onclick="window.location.href = '/'">Voltar ao ambiente<i class="fa-solid fa-right-to-bracket"></i></button>
+                    {% endif %}
+                    
+                    
+                    <button class="secondaryBt" onclick="window.location.href = '/logout'">Quero sair <i class="fa-solid fa-door-open"></i></button>
+                {% endif %}
+            </div>
+            <div class="loadingAll hideElement" id="loadingAuth">
+                <span class="loadingSpot">
+                    <span class="loadingSpin">
+                        <img src="/static/source/icon.svg" height="36px">
+                    </span>
+                    Aguenta aí...
+                </span>
+            </div>
+        </div>
+        
+        
+    </div>
+    <script src="/static/scripts/fun.js"></script>
+</body>
+</html>

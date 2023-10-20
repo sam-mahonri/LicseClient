@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/gui.css">
+    <title>Licse You - Sign In</title>
+</head>
+<body>
+    {% include 'modules/nav.html' %}
+    <div class="htvBody" style="background-image: url('/static/source/background_furry_sunflower_cdnme.png'); background-size: cover;">
+        <div class=" bannerAlone bannerExpand">
+            <img src="/static/source/icon.svg" height="456px">
+            <h1>Licse You</h1>
+            <h3> {{ session.get('fullName', '') }} </h3>
+            <h6>© 2023 Licse Project - by Sam Mahonri and IFSertãoPE</h6>
+        </div>
+    </div>
+    <script src="/static/scripts/fun.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<nav>
+    <img src="static/source/icon.svg" height="32px">
+    <span>Licse You</span>
+    <span class="bannerExpand"></span>
+    <button class="secondaryBt" onclick="openPop('userMenuPop', this)">{{ session.get('fullName', '').split(' ')[0] }} <div id="userMenuBt"> <i class="fa-regular fa-user"></i> </div></button>
+    <!-- <i class="fa-regular fa-user"></i> -->
+    <!-- <i class="fa-solid fa-user"></i> -->
+    
+    <div class="menuPop hideElement" id="userMenuPop">
+        
+        <div>
+            <img src="static/source/icon.svg" height="92px">
+            <h3>Olá, {{ session.get('fullName', '').split(' ')[0] }}!</h3>
+            <div class="divider"></div>
+            <button class="secondaryBt" onclick="window.location.href = 'https://licse.petrolina.ifsertao-pe.edu.br/'">
+                <i class="fas fa-book"></i>
+                API
+            </button>
+            <button class="secondaryBt discretWarnBt" onclick="window.location.href = '/logout'">
+                <i class="fa-solid fa-door-open"></i>
+                Sair da sessão
+            </button>
+        </div>
+        
+    </div>
+    <div class="hoverAll hideElement" onclick="openPop('userMenuPop', this)" id="hoverAll"></div>
+</nav>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/gui.css">
+    <title>Licse You - Sign Up</title>
+</head>
+<body>
+    <div class="htvBody" style="background-image: url('/static/source/background_furry_sunflower_cd.png'); background-size: cover; background-color: var(--current-user-color);">
+        
+        <div class="bannerAlone bannerExpand blurBack">
+            <div class="scrVertical scrSlave">
+                {% if status == 'LICSE_NONE' or status == 'LICSE_ERROR' %}
+                <form method="post" class="formAlone" onsubmit="showElement('loadingRegis')" action="">
+                    {% if status == 'LICSE_ERROR'%}
+                        <span class="discretErrorMessage">Este email já foi cadastrado! - Ou estamos enfrentando algum problema no nosso servidor</span>
+                    {% endif %}
+
+                    {{ form.csrf_token }}
+                    <img src="/static/source/icon.svg" height="64px">
+                    <h2 style="margin-bottom: 32px;">Cadastrar-se</h2>
+                    <label>Sobre você<i class="fa-solid fa-user"></i></label>
+                    <div class="campoFlutuante">
+                        
+                        <input type="email" name="email" placeholder="" value="{{ request.form.get('email', '') }}" required class="{{ 'invalidInput' if form.email.errors else '' }}">
+                        <label>Seu email <i class="fa-solid fa-envelope"></i></label>
+                    </div>
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                            <div class="discretErrorMessage">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="campoFlutuante">
+                        
+                        <input type="text" name="fullname" placeholder="" value="{{ request.form.get('fullname', '') }}" required class="{{ 'invalidInput' if form.fullname.errors else '' }}">
+                        <label>Nome completo <i class="fa-solid fa-pen-nib"></i></label>
+                    </div>
+                    {% if form.fullname.errors %}
+                        {% for error in form.fullname.errors %}
+                            <div class="discretErrorMessage">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="campoFlutuante">
+                        
+                        <input type="number" name="age" placeholder="" value="{{ request.form.get('age', '') }}" required class="{{ 'invalidInput' if form.age.errors else '' }}">
+                        <label>Idade <i class="fa-solid fa-pen-nib"></i></label>
+                    </div>
+                    {% if form.age.errors %}
+                        {% for error in form.age.errors %}
+                            <div class="discretErrorMessage">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <label>Sua cor favorita<i class="fa-solid fa-user"></i></label>
+                    <div class="colorSelector" style="margin-bottom: 16px;">
+                        <button class="colorPica purple" onclick="verifyColor(this)" type="button"></button>
+                        <button class="colorPica green" onclick="verifyColor(this)" type="button"></button>
+                        <button class="colorPica orange" onclick="verifyColor(this)" type="button"></button>
+                        <button class="colorPica blue" onclick="verifyColor(this)" type="button"></button>
+                        <button class="colorPica red" onclick="verifyColor(this)" type="button"></button>
+                        <input type="color" style="width: 32px; height: 32px; cursor: pointer;" onchange="callColor(this.value); updateInput(this.value)">
+                    </div>
+                    <div class="campoFlutuante">
+                        
+                        <input type="text" name="color" placeholder="" id="colorInput" value="{{ request.form.get('color', '') }}" required oninput="callColor(this.value)" class="{{ 'invalidInput' if form.color.errors else '' }}">
+                        <label>Cor personalizada (HEX) <i class="fa-solid fa-pen-nib"></i></label>
+                    </div>
+                    {% if form.color.errors %}
+                        {% for error in form.color.errors %}
+                            <div class="discretErrorMessage">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <label>Crie uma senha forte <i class="fa-solid fa-user-secret"></i></label>
+                    <div class="campoFlutuante">
+                        
+                        <input id="password" type="password" name="password" placeholder="" value="{{ request.form.get('password', '') }}" required class="{{ 'invalidInput' if form.password.errors else '' }}">
+                        <label>Sua senha <i class="fa-solid fa-key"></i></label>
+                    </div>
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <div class="discretErrorMessage">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="campoFlutuante">
+                        
+                        <input id="confirm" type="password" name="confirm" placeholder="" value="{{ request.form.get('confirm', '') }}" required class="{{ 'invalidInput' if form.confirm.errors else '' }}" oninput="verifyConfPasswords('password', 'confirm')">
+                        <label>Repita sua senha <i class="fa-solid fa-key"></i></label>
+                    </div>
+                    {% if form.confirm.errors %}
+                        {% for error in form.confirm.errors %}
+                            <div class="discretErrorMessage">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <button type="submit" class="primaryBt">Cadastrar-se <i class="fa-solid fa-user-plus"></i></button>
+                </form>
+                <label>Já possui uma conta Licse You?</label>
+                <button class="secondaryBt" onclick="window.location.href = '/signin'">Entrar <i class="fa-solid fa-right-to-bracket"></i></button>
+                {% endif %}
+                {% if status == 'LICSE_SUCCESS' or status == 'LICSE_ALREADY'%}
+                    
+                    {% if status == 'LICSE_SUCCESS'%}
+                        <img src="/static/source/success_icon.svg">
+                        <div>Cadastro realizado com êxito!</div>
+                        <div class="discretSuccessMessage">Enviamos um email de verificação para você, acione o link enviado antes de prosseguir, se não encontrar o email, confira na sua caixa de spam.<br><br>Por questões de segurança, você não pode fazer nenhuma operação (além do login) antes de verificar o seu email.</div>
+                        <button class="primaryBt" onclick="window.location.href = '/'">Ir ao ambiente<i class="fa-solid fa-right-to-bracket"></i></button>
+                    {% endif %}
+
+                    <button class="secondaryBt" onclick="window.location.href = '/logout'">Quero sair <i class="fa-solid fa-door-open"></i></button>
+                {% endif %}    
+            </div>
+            <div class="loadingAll hideElement" id="loadingRegis">
+                <span class="loadingSpot">
+                    <span class="loadingSpin">
+                        <img src="/static/source/icon.svg" height="36px">
+                    </span>
+                    Aguarde...
+                </span>
+            </div>
+        </div>
+        <div class="bannerBrand bannerAlone bannerExpand">
+            <img src="/static/source/icon.svg" height="456px">
+            <h1>Let's chat?</h1>
+            <h2></h2>
+            <h6>© 2023 Licse Project - by Sam Mahonri and IFSertãoPE</h6>
+        </div>
+        
+    </div>
+    <script src="/static/scripts/fun.js"></script>
+</body>
+</html>

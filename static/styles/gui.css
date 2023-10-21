@@ -2,7 +2,7 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
 :root{
     --background_dark_color: rgb(36, 34, 41);
-    --background_dark_color_2: rgba(36, 34, 41, 0.823);
+    --background_dark_color_2: rgba(36, 34, 41, 0.956);
     --sec_dark_color: rgb(55, 51, 66);
     --text_dark_color: rgb(220, 226, 234);
     --current_bg_color: var(--background_dark_color);
@@ -29,14 +29,47 @@ h1, h2, h3, h4, h5, h6{
     margin: 0px;
 }
 
+h1{
+    font-size: 25pt;
+    font-weight: 800;
+}
+
+h2{
+    font-size: 18pt;
+}
+
+h3{
+    font-size: 16pt;
+}
+
+h4{
+    font-size: 14pt;
+}
 .scrVertical{
     overflow-y: scroll;
+}
+
+.previewWarn{
+    opacity: 0.4;
+    background-color: var(--background_dark_color_2);
+    padding: 8px;
+    border-radius: 8px;
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    font-size: 7pt;
+}.previewWarn > *{
+    font-size: 7pt;
+}.previewWarn:hover{
+    opacity: 0.7;
 }
 
 *{
     color: var(--current_txt_color);
     font-family: 'Geologica', sans-serif;
     transition-duration: 0.3s;
+    text-align: center;
+    font-size: 11pt;
 }
 
 
@@ -156,7 +189,7 @@ input{
 
 .campoFlutuante > label{
     position: relative;
-    translate: 0px -37px;
+    translate: 0px -39px;
     pointer-events: none;
     font-size: 11pt;
     padding: 5px 12px 5px 12px;
@@ -173,21 +206,24 @@ input{
 
 .campoFlutuante > input:focus + label,
 .campoFlutuante > input:not(:placeholder-shown) + label{
-    translate: 0px -58px;
+    translate: 0px -64px;
     background-color: var(--current_user_color);
     scale: 80%;
-    
 }
 
 .campoFlutuante > input:focus + label{
-    translate: 0px -62px;
+    translate: 0px -77px;
+    border-radius: 12px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+
 }
 
 .campoFlutuante > input:focus{
     border-color: var(--current_user_color);
     box-shadow: 0 0 0 4px var(--current_user_color_2);
     translate: 0px -4px;
-    margin-top: 16px;
+    margin-top: 22px;
 }
 
 .invalidInput{
@@ -243,12 +279,21 @@ input[type="color"] {
 
 .blurBack{
     backdrop-filter: blur(16px);
-    background-color: rgba(48, 42, 56, 0.707);
+    background-color: rgba(40, 35, 46, 0.767);
+}
+
+.navComp{
+    min-height: 58px !important;
 }
 
 @media (max-width:770px) {  
     .bannerBrand{
         display: none;
+    }
+    .lateralNav{
+        position: fixed;
+        height: 100%;
+        top: 0;
     }
 }
 
@@ -260,6 +305,9 @@ input[type="color"] {
     padding: 16px;
     box-sizing: border-box;
     gap: 8px;
+    padding-bottom: 128px !important;
+    padding-top: 64px !important;
+    box-sizing: border-box;
 }
 
 .loadingAll{
@@ -271,6 +319,13 @@ input[type="color"] {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.753);
     flex-direction: column;
+}
+
+.notifArea{
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    max-width: 360px;
 }
 
 .loadingSpot{
@@ -341,7 +396,7 @@ input[type="color"] {
 }
 
 .hideElement{
-    display: none;
+    display: none !important;
 }
 
 .errorAlert{
@@ -422,6 +477,23 @@ nav{
     flex-direction: row;
     align-items: center;
     gap: 16px;
+    z-index: 1000;
+}
+
+.pseudoNav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 58px;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    background-color: var(--current_bg_color);
+}
+
+.lateralNav{
+    width: 330px;
+    z-index: 1002;
 }
 
 .menuPop{
@@ -430,9 +502,10 @@ nav{
     right: 16px;
     top: 72px;
     padding: 16px;
-    background-color: var(--background_dark_color_2);
     border-radius: 22px;
     border-top-right-radius: 4px;
+    box-shadow: 0 0 16px var(--background_dark_color_2);
+    border: 1px solid var(--current_user_color);
     
 }.menuPop > div{
     
@@ -440,8 +513,6 @@ nav{
     flex-direction: column;
     width: 256px;
     gap: 8px;
-}.menuPop > div > button{
-    border-radius: 12px !important;
 }
 
 .discretWarnBt{
@@ -471,6 +542,29 @@ nav{
     animation: 0.3s closing forwards ease-in-out;
 }
 
+.openingLateral{
+    overflow: hidden;
+    animation: 0.3s openingLateral forwards ease-in-out;
+}
+
+.closingLateral{
+    overflow: hidden;
+    animation: 0.3s closingLateral forwards ease-in-out;
+}
+
+@keyframes openingLateral {
+    from{
+        max-width: 0px;
+        opacity: 0.5;
+
+    }
+    to{
+        max-width: 330px;
+        opacity: 1;
+
+    }    
+}
+
 @keyframes opening {
     from{
         max-height: 0px;
@@ -478,15 +572,28 @@ nav{
         translate: 0 -16px;
     }
     to{
-        max-height: 512px;
+        max-height: 720px;
         opacity: 1;
         translate: 0 0px;
     }    
 }
 
+@keyframes closingLateral {
+    from{
+        max-width: 330px;
+        opacity: 1;
+    }
+    to{
+        max-width: 0px;
+        opacity: 0;
+        
+    }    
+}
+
+
 @keyframes closing {
     from{
-        max-height: 512px;
+        max-height: 720px;
         opacity: 1;
         translate: 0 0px;
     }

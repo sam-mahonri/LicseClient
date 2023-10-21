@@ -8,8 +8,9 @@ headers = {'Content-Type': 'application/json'}
 
 def is_logged_in():
     if 'userToken' in session and "userId" in session:
-        if 'LICSE_ERROR' in get_user_info(): return False 
-        else: return True
+        #if 'LICSE_ERROR' in get_user_info(): return False 
+        #else: return True
+        return True
     else:
         return False
 
@@ -133,6 +134,7 @@ def get_user_info():
         session['age'] = response_data.get('age', '')
         session['points'] = response_data.get('points', '')
         session['redflags'] = response_data.get('redflags', '')
+        session['expired'] = False
         return response_data
     else:
         log_out()
@@ -142,5 +144,35 @@ def get_user_info():
         session['age'] = ''
         session['points'] = ''
         session['redflags'] = ''
-
+        session['expired'] = True
         return {'LICSE_ERROR':'Ocorreu um erro'}
+    
+def verified_email():
+    url = LICSE_VER_EMAIL
+
+    # Defina os dados do corpo da solicitação (email e senha)
+
+    if not 'userToken' in session and "userId" in session:
+        return False
+    
+    data = {
+        "token": session['userToken'],
+        "userId": session['userId']
+    }
+
+    json_data = json.dumps(data)
+
+    # Faça a solicitação POST com os dados
+    response = requests.post(url, data=json_data, verify=LICSE_VERIFY_SSL, headers=headers)
+
+    # Verifique se a solicitação foi bem-sucedida (código de status 200)
+    if response.status_code == 200:
+        # A solicitação foi bem-sucedida, e você pode processar a resposta
+        print("Literal: " + response.text)
+        outp = False
+        if response.text == "true\n": outp = True
+        else: outp = False
+        return outp
+    else:
+        log_out()
+        return False

@@ -43,5 +43,11 @@ def ver_login():
   resposta = apiactions.is_logged_in()
   if not resposta:
     return redirect('/signin')
-  return render_template('home.html', session=session)
-
+  else:
+    email_verified = apiactions.verified_email()
+    print(email_verified)
+    return render_template('home.html', session=session, emailver=email_verified)
+  
+def sendvemail():
+  result = apiactions.send_email_ver()
+  return result

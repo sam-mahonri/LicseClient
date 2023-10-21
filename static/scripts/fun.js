@@ -62,3 +62,52 @@ function openPop(itemId, self){
     }
 }
 
+function notifArea(nature, message){
+    var notifArea = document.getElementById('notifArea')
+    var notifError = document.getElementById('notifAreaErrorMessage')
+    var notifSuccess = document.getElementById('notifAreaSuccessMessage')
+
+    notifArea.classList.remove('hideElement')
+    notifSuccess.classList.add('hideElement')
+    notifError.classList.add('hideElement')
+    notifArea.classList.add('opening')
+
+    setTimeout(() => {
+        notifArea.classList.add('hideElement')
+        notifSuccess.classList.add('hideElement')
+        notifError.classList.add('hideElement')
+        notifArea.classList.remove('closing')
+    }, 5000);
+
+    setTimeout(() => {
+        notifArea.classList.remove('opening')
+        notifArea.classList.add('closing')
+    }, 4700);
+
+    if (nature == "ERROR"){
+        notifError.classList.remove('hideElement')
+        notifSuccess.classList.add('hideElement')
+        notifError.innerHTML = message
+    }else if (nature == "SUCCESS"){
+        notifSuccess.classList.remove('hideElement')
+        notifError.classList.add('hideElement')
+        notifSuccess.innerHTML = message
+    }
+}
+
+function openMenu(menuId){
+    menu = document.getElementById(menuId)
+    if(menu.classList.contains('hideElement')){
+        menu.classList.remove('hideElement')
+        menu.classList.add('openingLateral')
+    }else{
+        //item.classList.add('hideElement')
+        menu.classList.remove('opening')
+        menu.classList.add('closingLateral')
+        setTimeout(() => {
+            menu.classList.remove('closingLateral')
+            menu.classList.add('hideElement')
+        }, 300);
+    }
+
+}

@@ -6,16 +6,64 @@
     <link rel="stylesheet" href="/static/styles/gui.css">
     <title>Licse You - Ambiente</title>
 </head>
-<body>
+<body style="background-image: url('/static/source/background_furry_sunflower_cdnme.png'); background-size: cover;">
     {% include 'modules/nav.html' %}
-    <div class="htvBody" style="background-image: url('/static/source/background_furry_sunflower_cdnme.png'); background-size: cover;">
+    {% if emailver == True %}
+    <div class="htvBody">
+        {% include 'modules/chat_list.html' %}
         <div class=" bannerAlone bannerExpand">
-            <img src="/static/source/icon.svg" height="456px">
+            <img src="/static/source/icon.svg" height="360px">
             <h1>Licse You</h1>
             <h3> {{ session.get('fullName', '') }} </h3>
             <h6>© 2023 Licse Project - by Sam Mahonri and IFSertãoPE</h6>
         </div>
     </div>
+    {% else %}
+    <div class="htvBody">
+        <div class=" bannerAlone bannerExpand ">
+            
+            <div class="scrVertical scrSlave">
+                <div class="navComp"></div>
+                <img src="/static/source/why_icon.svg" height="148px">
+                <h3> Olá, {{ session.get('fullName', '') }}! </h3>
+                <h1>Verifique seu email</h1>
+                <p style="max-width: 400px;">Para continuar usando o Licse You, você precisa verificar o seu email.<br> No ato do cadastro, foi enviado um email, você pode tentar vê-lo na sua caixa de spam, caso não encontrar, tente enviar novamente.</p>
+                <button class="primaryBt" onclick="sendVerEmail(this); document.getElementById('loadingAll').classList.remove('hideElement');">Enviar email novamente <i class="fas fa-paper-plane"></i></button>
+                <p style="max-width: 400px;">Depois de verificar o seu email, atualize esta página.</p>
+                <button class="secondaryBt discretWarnBt" onclick="location.reload();">
+                    <i class="fa-solid fa-door-open"></i>
+                    Atualizar página
+                </button>
+                <p style="max-width: 400px;">Se este email é falso, não é seu, ou é um email temporário, exclua essa conta o mais breve possivel.</p>
+                
+                <button class="secondaryBt discretWarnBt" onclick="window.location.href = '/logout'">
+                    <i class="fas fa-skull-crossbones"></i>
+                    Excluir conta com um único clique
+                </button>
+                <div class="divider"></div>
+                
+                <h6>© 2023 Licse Project - by Sam Mahonri and IFSertãoPE</h6>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% include 'modules/beta_warn.html' %}
+
+    <div class="loadingAll hideElement" style="top: 0px; left: 0px; z-index: 1001;" id="loadingAll">
+        <span class="loadingSpot">
+            <span class="loadingSpin">
+                <img src="/static/source/icon.svg" height="36px">
+            </span>
+            Aguenta aí...
+        </span>
+    </div>
+
+    <div class="notifArea hideElement" id="notifArea">
+        <span class="discretErrorMessage hideElement" id="notifAreaErrorMessage">Mensagem</span>
+        <span class="discretSuccessMessage hideElement" id="notifAreaSuccessMessage">Mensagem</span>
+    </div>
     <script src="/static/scripts/fun.js"></script>
+    <script src="/static/scripts/req.js"></script>
 </body>
 </html>

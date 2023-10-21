@@ -9,7 +9,7 @@
 <body>
     <div class="htvBody" style="background-image: url('/static/source/background_furry_sunflower_cdnme.png'); background-size: cover;">
         <div class="bannerBrand bannerAlone bannerExpand">
-            <img src="/static/source/icon.svg" height="456px">
+            <img src="/static/source/icon.svg" height="360px">
             <h1>Licse You</h1>
             <h2></h2>
             <h6>© 2023 Licse Project - by Sam Mahonri and IFSertãoPE</h6>
@@ -20,6 +20,9 @@
                 <form method="post" class="formAlone" action=""  onsubmit="showElement('loadingAuth')">
                     {% if status == 'LICSE_ERROR'%}
                         <span class="discretErrorMessage">Email/Senha podem estar incorretos - Ou estamos enfrentando algum problema no nosso servidor</span>
+                    {% endif %}
+                    {% if session.get('expired', False) %}
+                        <span class="discretErrorMessage">A sua sessão expirou (1 hora), faça login novamente</span>
                     {% endif %}
 
                     {{ form.csrf_token }}

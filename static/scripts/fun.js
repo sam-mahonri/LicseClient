@@ -24,7 +24,7 @@ function rgbToHex(rgb) {
 function callColor(colorHex){
     if (colorHex.length == 7){
         document.documentElement.style.setProperty('--current_user_color', colorHex);
-        document.documentElement.style.setProperty('--current_user_color_2', colorHex + '41');
+        document.documentElement.style.setProperty('--current_user_color_2', colorHex + '2b');
     }
     
 }
@@ -97,17 +97,62 @@ function notifArea(nature, message){
 
 function openMenu(menuId){
     menu = document.getElementById(menuId)
+    globalNav = document.getElementById('inopNav')
     if(menu.classList.contains('hideElement')){
         menu.classList.remove('hideElement')
         menu.classList.add('openingLateral')
+        globalNav.classList.remove('hideElement')
+        globalNav.classList.remove('justFadeHide')
+        globalNav.classList.add('justFadeShow')
     }else{
         //item.classList.add('hideElement')
         menu.classList.remove('opening')
         menu.classList.add('closingLateral')
+        globalNav.classList.remove('justFadeShow')
+        globalNav.classList.add('justFadeHide')
         setTimeout(() => {
             menu.classList.remove('closingLateral')
             menu.classList.add('hideElement')
+            globalNav.classList.add('hideElement')
+            globalNav.classList.remove('justFadeShow')
+            
         }, 300);
+        
     }
 
+}
+
+function openPopDialog(title, descr, action, type='normal'){
+    titleObject = document.getElementById('globalTitlePopDialogArea')
+    descrObject = document.getElementById('globalDescrPopDialogArea')
+    btAct = document.getElementById('globalGoBtPopDialogArea')
+
+    titleObject.innerHTML = title
+    descrObject.innerHTML = descr
+    
+    btAct.onclick = function() {
+        eval(action)
+    }
+
+    globalObfs = document.getElementById('globalObfsPopDialog')
+    popDial = document.getElementById('globalPopDialogArea')
+
+    globalObfs.classList.remove('hideElement')
+    globalObfs.classList.add('justFadeShow')
+    popDial.classList.add('opening')
+}
+
+function closePopDialog(){
+    globalObfs = document.getElementById('globalObfsPopDialog')
+    popDial = document.getElementById('globalPopDialogArea')
+
+    globalObfs.classList.remove('justFadeShow')
+    globalObfs.classList.add('justFadeHide')
+    popDial.classList.add('closing')
+
+    setTimeout(() => {
+        globalObfs.classList.add('hideElement')
+        popDial.classList.remove('closing')
+        globalObfs.classList.remove('justFadeHide')
+    }, 300);
 }

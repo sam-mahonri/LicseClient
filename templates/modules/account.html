@@ -1,0 +1,61 @@
+<div class="bannerAlone blurBack lateralNav hideElement rightNav" id="acSets">
+    <div class="pseudoNav">
+        <button class="secondaryBt" onclick="openMenu('acSets')"> <i class="fa-solid fa-user"></i> Sua conta <i class="fas fa-arrow-circle-right"></i></button>
+    </div>
+    <div class="navComp"></div>
+    <div class="scrVertical scrSlave" style="min-width: 330px !important;">
+        <form method="post" class="formAlone" onsubmit="showElement('loadingRegis')" action="">
+
+            {{ form_update_acc.csrf_token }}
+            <img src="/static/source/icon.svg" height="64px">
+            <h2 style="margin-bottom: 32px;">Sua conta</h2>
+            <label>Sobre você<i class="fa-solid fa-user"></i></label>
+            
+            <div class="campoFlutuante">
+                
+                <input type="text" name="fullname" placeholder="" value="{{ session.get('fullName', '') }}" required class="{{ 'invalidInput' if form_update_acc.fullname.errors else '' }}">
+                <label>Nome completo <i class="fa-solid fa-pen-nib"></i></label>
+            </div>
+            {% if form_update_acc.fullname.errors %}
+                {% for error in form_update_acc.fullname.errors %}
+                    <div class="discretErrorMessage">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+            <div class="campoFlutuante">
+                
+                <input type="number" name="age" placeholder="" value="{{ session.get('age', '') }}" required class="{{ 'invalidInput' if form_update_acc.age.errors else '' }}">
+                <label>Idade <i class="fa-solid fa-pen-nib"></i></label>
+            </div>
+            {% if form_update_acc.age.errors %}
+                {% for error in form_update_acc.age.errors %}
+                    <div class="discretErrorMessage">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+            <label>Sua cor favorita<i class="fa-solid fa-user"></i></label>
+            <div class="colorSelector" style="margin-bottom: 16px;">
+                <button class="colorPica purple" onclick="verifyColor(this)" type="button"></button>
+                <button class="colorPica green" onclick="verifyColor(this)" type="button"></button>
+                <button class="colorPica orange" onclick="verifyColor(this)" type="button"></button>
+                <button class="colorPica blue" onclick="verifyColor(this)" type="button"></button>
+                <button class="colorPica red" onclick="verifyColor(this)" type="button"></button>
+                <input type="color" style="width: 32px; height: 32px; cursor: pointer;" onchange="callColor(this.value); updateInput(this.value)">
+            </div>
+            <div class="campoFlutuante">
+                
+                <input type="text" name="color" placeholder="" id="colorInput" value="{{ session.get('favColor', '') }}" required oninput="callColor(this.value)" class="{{ 'invalidInput' if form_update_acc.color.errors else '' }}">
+                <label>Cor personalizada (HEX) <i class="fa-solid fa-pen-nib"></i></label>
+            </div>
+            {% if form_update_acc.color.errors %}
+                {% for error in form_update_acc.color.errors %}
+                    <div class="discretErrorMessage">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+            
+            <button type="submit" class="primaryBt">Atualizar <i class="fa-solid fa-pen-nib"></i></button>
+        </form>
+        <button class="secondaryBt discretWarnBt" onclick="openPopDialog('Deletar sua conta?', 'Você não será capaz de recuperar suas conversas, isto é uma ação irreversível!', 'deleteAc(); closePopDialog(); document.getElementById(\'loadingAll\').classList.remove(\'hideElement\'); openMenu(\'acSets\');', 'normal')">
+            <i class="fas fa-skull-crossbones"></i>
+            Excluir conta
+        </button>
+    </div>
+</div>

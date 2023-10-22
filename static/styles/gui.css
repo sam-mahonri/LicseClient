@@ -8,11 +8,12 @@
     --current_bg_color: var(--background_dark_color);
     --current_txt_color:  var(--text_dark_color);
     --current_user_color: #7c5dc5;
-    --current_user_color_2: #7c5dc541;
+    --current_user_color_2: #7c5dc52b;
     --error_color: #e62169;
     --error_color_2: #e621694b;
     --success_color: #43af7d;
     --success_color_2: #43af7d60;
+    --round_value: 22px;
 }
 
 body, html{
@@ -50,6 +51,7 @@ h4{
 }
 
 .previewWarn{
+    z-index: 2000;
     opacity: 0.4;
     background-color: var(--background_dark_color_2);
     padding: 8px;
@@ -117,8 +119,8 @@ label{
 
 .formAlone{
     width: 100%;
-    max-width: 400px;
-    padding: 32px;
+    max-width: 378px;
+    padding: 16px;
     border-radius: 16px;
     box-sizing: border-box;
 }
@@ -128,7 +130,7 @@ input{
     padding: 12px;
     background-color: rgba(0, 0, 0, 0.256);
     border: solid 2px transparent;
-    border-radius: 22px;
+    border-radius: var(--round_value);
     width: 100%;
     box-sizing: border-box;
 }
@@ -142,7 +144,7 @@ input{
 }.colorPica:hover{
     box-shadow: 0 0 0 4px var(--current_user_color_2);
     scale: 120%;
-    border-radius: 10px;
+    border-radius: var(--round_value);
 }
 
 .colorSelector{
@@ -151,7 +153,7 @@ input{
     justify-content: space-between;
     border: solid 2px var(--current_user_color);
     padding: 8px;
-    border-radius: 32px;
+    border-radius: var(--round_value);
     background-color: var(--current_user_color_2);
 }
 
@@ -211,6 +213,8 @@ input{
     scale: 80%;
 }
 
+
+
 .campoFlutuante > input:focus + label{
     translate: 0px -77px;
     border-radius: 12px;
@@ -255,9 +259,9 @@ input[type="color"] {
     justify-content: center;
     gap: 8px;
     font-size: 11pt;
-    border: solid 1px #ffffff2a;
+    border: none;
     cursor: pointer;
-    border-radius: 22px;
+    border-radius: var(--round_value);
 }.primaryBt:hover, .secondaryBt:hover{
     translate: 0px -2px;
 }
@@ -270,11 +274,11 @@ input[type="color"] {
 }
 
 .secondaryBt{
-    
+
     padding: 8px 16px 8px 16px;
-    background-color: transparent;
+    background-color: var(--current_user_color_2);
 }.secondaryBt:hover{
-    background-color: rgba(255, 255, 255, 0.059);
+    background-color: var(--current_user_color);
 }
 
 .blurBack{
@@ -294,6 +298,13 @@ input[type="color"] {
         position: fixed;
         height: 100%;
         top: 0;
+    }
+    .rightNav{
+        right: 0px;
+    }
+
+    .leftNav{
+        left: 0px;
     }
 }
 
@@ -318,7 +329,9 @@ input[type="color"] {
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.753);
+    backdrop-filter: blur(16px);
     flex-direction: column;
+    z-index: 1005;
 }
 
 .notifArea{
@@ -478,7 +491,11 @@ nav{
     align-items: center;
     gap: 16px;
     z-index: 1000;
+    border-bottom: solid 1px var(--current_user_color);
+    box-shadow: 0 0 16px var(--background_dark_color_2);
 }
+
+
 
 .pseudoNav{
     display: flex;
@@ -488,7 +505,10 @@ nav{
     width: 100%;
     position: fixed;
     top: 0px;
-    background-color: var(--current_bg_color);
+    background-color: var(--current_user_color_2);
+    border-bottom: solid 1px var(--current_user_color);
+    box-sizing: border-box;
+    box-shadow: 0 0 16px var(--current_user_color);
 }
 
 .lateralNav{
@@ -532,9 +552,30 @@ nav{
     background-color: transparent;
 }
 
+.justFadeHide{
+    animation: 0.3s fadeOut forwards ease-in-out;
+}
+
+.justFadeShow{
+    animation: 0.3s fadeIn forwards ease-in-out;
+}
+
 .opening{
     overflow: hidden;
     animation: 0.3s opening forwards ease-in-out;
+}
+
+.hideAll{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background_dark_color);
+    gap: 16px;
+    box-sizing: border-box;
 }
 
 .closing{
@@ -550,6 +591,16 @@ nav{
 .closingLateral{
     overflow: hidden;
     animation: 0.3s closingLateral forwards ease-in-out;
+}
+
+@keyframes fadeIn {
+    from{ opacity: 0; }
+    to{ opacity: 1; }    
+}
+
+@keyframes fadeOut {
+    from{ opacity: 1; }
+    to{ opacity: 0; }    
 }
 
 @keyframes openingLateral {
@@ -606,8 +657,46 @@ nav{
 }
 
 .divider{
-    height: 1px;
+    min-height: 1px;
+    width: 100%;
     background-image: linear-gradient(to right, transparent, var(--current_user_color), transparent);
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.popMenuBt{
+    background-color: transparent !important;
+    border: solid 1px var(--current_user_color_2);
+}.popMenuBt:hover{
+    border-radius: var(--round_value) !important;
+    background-color: var(--current_user_color_2) !important;
+}
+
+.obfsALL{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.69);
+    backdrop-filter: blur(8px);
+    z-index: 2006;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.popDialog{
+    max-width: 350px;
+    background-color: var(--background_dark_color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    border-radius: 16px;
+    border: solid 1px var(--current_user_color);
 }

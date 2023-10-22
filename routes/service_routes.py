@@ -8,3 +8,6 @@ services_bp = blueprints.Blueprint('services', __name__)
 def sendvemail():
   return functions.sendvemail()
 
+@services_bp.route('/deleteac', methods=["DELETE"])
+def deleteac():
+  return functions.deleteac()

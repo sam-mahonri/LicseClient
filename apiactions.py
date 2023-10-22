@@ -8,16 +8,17 @@ headers = {'Content-Type': 'application/json'}
 
 def is_logged_in():
     if 'userToken' in session and "userId" in session:
-        #if 'LICSE_ERROR' in get_user_info(): return False 
-        #else: return True
-        return True
+        ##### RECARREGAR DADOS DO USUÁRIO SEMPRE QUE A PÁGINA ABRIR #####
+        if 'LICSE_ERROR' in get_user_info(): return False 
+        else: return True
+        #return True
     else:
         return False
 
 def register(email, password, fullname, color, age):
     url = LICSE_REGISTER
 
-    # Defina os dados do corpo da solicitação (email e senha)
+
     data = {
         "email": email,
         "password": password,
@@ -41,8 +42,6 @@ def register(email, password, fullname, color, age):
 
 def log_in(email, password):
     url = LICSE_LOGIN
-
-    # Defina os dados do corpo da solicitação (email e senha)
     data = {
         "email": email,
         "password": password
@@ -50,21 +49,16 @@ def log_in(email, password):
 
     json_data = json.dumps(data)
 
-    # Faça a solicitação POST com os dados
     response = requests.post(url, data=json_data, verify=LICSE_VERIFY_SSL, headers=headers)
 
-    # Verifique se a solicitação foi bem-sucedida (código de status 200)
     if response.status_code == 200:
-        # A solicitação foi bem-sucedida, e você pode processar a resposta
-        response_data = response.json()  # Se a resposta for em formato JSON
+        response_data = response.json()
         session['userToken'] = response_data['token']
         session['userId'] = response_data['userId']
         get_user_info()
         return 'LICSE_SUCCESS'
     else:
-        # A solicitação falhou, e você pode lidar com erros
         log_out()
-        
         return 'LICSE_ERROR'
 
 def log_out():
@@ -78,8 +72,6 @@ def log_out():
 def send_email_ver():
     url = LICSE_SENDEMAIL_VER
 
-    # Defina os dados do corpo da solicitação (email e senha)
-
     if not 'userToken' in session and "userId" in session:
         return 'LICSE_ERROR'
     
@@ -90,12 +82,9 @@ def send_email_ver():
 
     json_data = json.dumps(data)
 
-    # Faça a solicitação POST com os dados
     response = requests.post(url, data=json_data, verify=LICSE_VERIFY_SSL, headers=headers)
 
-    # Verifique se a solicitação foi bem-sucedida (código de status 200)
     if response.status_code == 200:
-        # A solicitação foi bem-sucedida, e você pode processar a resposta
         response_data = response.json()
         return 'LICSE_SUCCESS'
     else:
@@ -105,8 +94,6 @@ def send_email_ver():
     
 def get_user_info():
     url = LICSE_GET_CURRENT_USER
-
-    # Defina os dados do corpo da solicitação (email e senha)
 
     if not 'userToken' in session and "userId" in session:
         return {'LICSE_ERROR':'Ocorreu um erro'}
@@ -149,9 +136,6 @@ def get_user_info():
     
 def verified_email():
     url = LICSE_VER_EMAIL
-
-    # Defina os dados do corpo da solicitação (email e senha)
-
     if not 'userToken' in session and "userId" in session:
         return False
     
@@ -161,13 +145,9 @@ def verified_email():
     }
 
     json_data = json.dumps(data)
-
-    # Faça a solicitação POST com os dados
     response = requests.post(url, data=json_data, verify=LICSE_VERIFY_SSL, headers=headers)
 
-    # Verifique se a solicitação foi bem-sucedida (código de status 200)
     if response.status_code == 200:
-        # A solicitação foi bem-sucedida, e você pode processar a resposta
         print("Literal: " + response.text)
         outp = False
         if response.text == "true\n": outp = True
@@ -176,3 +156,26 @@ def verified_email():
     else:
         log_out()
         return False
+
+def deleteac():
+    url = LICSE_DELETE_AC
+
+    if not 'userToken' in session and "userId" in session:
+        return 'LICSE_ERROR'
+    
+    data = {
+        "token": session['userToken'],
+        "userId": session['userId']
+    }
+
+    json_data = json.dumps(data)
+
+    response = requests.delete(url, data=json_data, verify=LICSE_VERIFY_SSL, headers=headers)
+    if response.status_code == 200:
+        json_out = response.json()
+        if "licseError" in json_out:
+            if json_out['licseError'] == 'SUCCESS_DELETE_USER_REGISTER': return 'LICSE_SUCCESS'
+            elif json_out['licseError'] == 'ERROR_DELETE_USER_REGISTER': return 'LICSE_ERROR'
+    else:
+        log_out()
+        return 'LICSE_ERROR'

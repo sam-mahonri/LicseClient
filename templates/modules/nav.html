@@ -1,4 +1,12 @@
-<nav>
+<nav id="globalNavbar">
+
+    <div class="hideAll hideElement" id="inopNav">
+        <img src="static/source/icon.svg" height="32px">
+        <span class="bannerExpand"></span>
+        <img src="static/source/icon.svg" height="32px">
+    </div>
+
+    
     <img src="static/source/icon.svg" height="32px">
     {% if emailver == True %}
         <button class="secondaryBt" onclick="openMenu('chatList')">Conversas <i class="fas fa-comment-alt"></i></button>
@@ -14,26 +22,33 @@
             <img src="static/source/icon.svg" height="92px">
             <h3>Olá, {{ session.get('fullName', '').split(' ')[0] }}!</h3>
             <div class="divider"></div>
+
             {% if emailver == True %}
-            <button class="secondaryBt" onclick="">
-                <i class="fa-solid fa-star"></i>
-                {{ session.get('points', '') }} ponto(s)
-            </button>
+                <button class="secondaryBt popMenuBt" onclick="openMenu('acSets'); openPop('userMenuPop', this)">
+                    <i class="fa-solid fa-user"></i>
+                    Sua conta Licse
+                </button>
+
+                <button class="secondaryBt popMenuBt" onclick="">
+                    <i class="fa-solid fa-star"></i>
+                    {{ session.get('points', '') }} ponto(s)
+                </button>
+
+                <button class="secondaryBt popMenuBt" onclick="">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    {{ session.get('redflags', '') }} penalidade(s)
+                </button>
             {% endif %}
-            {% if emailver == True %}
-            <button class="secondaryBt" onclick="">
-                <i class="fa-solid fa-circle-exclamation"></i>
-                {{ session.get('redflags', '') }} penalidade(s)
-            </button>
-            {% endif %}
-            <button class="secondaryBt" onclick="window.location.href = 'https://www.licse.com/'">
+
+            <button class="secondaryBt popMenuBt" onclick="window.location.href = 'https://www.licse.com/'">
                 <i class="fa-solid fa-sitemap"></i>
                 Apresentação
             </button>
-            <button class="secondaryBt" onclick="window.location.href = 'https://licse.petrolina.ifsertao-pe.edu.br/'">
+            <button class="secondaryBt popMenuBt" onclick="window.location.href = 'https://licse.petrolina.ifsertao-pe.edu.br/'">
                 <i class="fas fa-book"></i>
                 API
             </button>
+            <div class="divider"></div>
             <button class="secondaryBt discretWarnBt" onclick="window.location.href = '/logout'">
                 <i class="fa-solid fa-door-open"></i>
                 Sair da sessão

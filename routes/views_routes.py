@@ -1,4 +1,4 @@
-from flask import blueprints, redirect, render_template, send_file, request
+from flask import blueprints, redirect, render_template, send_file, request, session
 import apiactions
 import forms
 import functions
@@ -18,7 +18,9 @@ def signup():
 
 @views_bp.route('/logout')
 def logout():
+   session.permanent = False
    apiactions.log_out()
+
    return redirect('/signin')
 
 @views_bp.route('/favicon.ico')

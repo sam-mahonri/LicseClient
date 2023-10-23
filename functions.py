@@ -8,6 +8,13 @@ def signin():
   if request.method == 'POST' and form.validate_on_submit():
     email = request.form.get('email', '')
     password = request.form.get('password', '')
+
+    if request.form.get('keeplogged', 'off') == 'on':
+      session['keeplogged'] = request.form.get('keeplogged', 'off')
+      session['email'] = email
+      session['password'] = password
+      session.permanent = True
+    
     status = apiactions.log_in(email, password)
 
     if status == 'LICSE_SUCCESS': 
@@ -59,9 +66,16 @@ def ver_login():
 
       return redirect('/')
     else:
-
       return render_template('home.html', session=session, emailver=email_verified, form=form_update_acc, form_update_acc=form_update_acc, opened='acUpdate')
+  
   if not resposta:
+    if session.get('keeplogged', 'off') == 'on':
+
+      status = apiactions.log_in(session.get('email', ''), session.get('password', ''))
+
+      if status == 'LICSE_SUCCESS': 
+        return redirect('/')
+
     return redirect('/signin')
   else:
     return render_template('home.html', session=session, emailver=email_verified, form=form_update_acc, form_update_acc=form_update_acc)

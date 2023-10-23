@@ -1,10 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, validators, csrf, EmailField, IntegerField
+from wtforms import StringField, PasswordField, validators, csrf, EmailField, IntegerField, BooleanField
 
 class LoginForm (FlaskForm):
   # Definir os campos do formulário com os respectivos validadores
   email = EmailField ('Email', validators=[validators.DataRequired (), validators.Length (min=3, max=50, message='O email deve ter no mínimo 3 caracteres e no máximo 50!')])
   password = PasswordField ('Senha', validators=[validators.DataRequired (), validators.Length (min=6, max=25, message='A senha deve ter entre 6 e 25 caracteres!')])
+  keeplogged = BooleanField ('Manter')
 
 class RegisterForm (FlaskForm):
   # Definir os campos do formulário com os respectivos validadores

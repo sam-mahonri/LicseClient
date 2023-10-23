@@ -114,7 +114,6 @@ def get_user_info():
             log_out()
             return {'LICSE_ERROR':'Os dados não existem mais'}
 
-        print(response_data)
 
         session['fullName'] = response_data.get('fullName', '')
         session['favColor'] = response_data.get('favColor', '')
@@ -148,7 +147,7 @@ def verified_email():
     response = requests.post(url, data=json_data, verify=LICSE_VERIFY_SSL, headers=headers)
 
     if response.status_code == 200:
-        print("Literal: " + response.text)
+
         outp = False
         if response.text == "true\n": outp = True
         else: outp = False
@@ -177,5 +176,42 @@ def deleteac():
             if json_out['licseError'] == 'SUCCESS_DELETE_USER_REGISTER': return 'LICSE_SUCCESS'
             elif json_out['licseError'] == 'ERROR_DELETE_USER_REGISTER': return 'LICSE_ERROR'
     else:
+        log_out()
+        return 'LICSE_ERROR'
+    
+def updateac(fullname, age, color):
+    url = LICSE_UPDATE_AC
+
+    if not 'userToken' in session and "userId" in session:
+        return 'LICSE_ERROR'
+    
+    data = {
+        "data": {
+            "fullName": fullname,
+            "age": age,
+            "favColor": color
+        },
+        "token": session['userToken'],
+        "userId": session['userId']
+    }
+
+    json_data = json.dumps(data)
+
+    response = requests.put(url, data=json_data, verify=LICSE_VERIFY_SSL, headers=headers)
+
+    if response.status_code == 200:
+        json_out = response.json()
+        
+        if "licseError" in json_out:
+            if json_out['licseError'] == 'SUCCESS_USER_UPDATED':
+                session['fullName'] = fullname
+                session['favColor'] = color
+                session['age'] = age
+                return 'LICSE_SUCCESS'
+            elif json_out['licseError'] == 'ERROR_USER_UPDATED':
+
+                return 'LICSE_ERROR'
+    else:
+
         log_out()
         return 'LICSE_ERROR'

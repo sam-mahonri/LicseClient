@@ -17,6 +17,7 @@
 }
 
 body, html{
+    transition-duration: 0s !important;
     height: 100%;
     width: 100%;
     position: fixed;
@@ -58,7 +59,7 @@ h4{
     border-radius: 8px;
     position: fixed;
     bottom: 16px;
-    right: 16px;
+    left: 16px;
     font-size: 7pt;
 }.previewWarn > *{
     font-size: 7pt;
@@ -282,8 +283,8 @@ input[type="color"] {
 }
 
 .blurBack{
-    backdrop-filter: blur(16px);
-    background-color: rgba(40, 35, 46, 0.767);
+    backdrop-filter: blur(8px);
+    background-color: rgba(40, 35, 46, 0.848);
 }
 
 .navComp{
@@ -328,10 +329,10 @@ input[type="color"] {
     position: absolute;
     height: 100%;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.753);
-    backdrop-filter: blur(16px);
+    background-color: rgba(0, 0, 0, 0.845);
+    backdrop-filter: blur(8px);
     flex-direction: column;
-    z-index: 1005;
+    z-index: 2007 !important;
 }
 
 .notifArea{
@@ -339,6 +340,7 @@ input[type="color"] {
     left: 16px;
     bottom: 16px;
     max-width: 360px;
+    z-index: 2010 !important;
 }
 
 .loadingSpot{
@@ -359,12 +361,10 @@ input[type="color"] {
     border: 4px solid var(--current_user_color_2);
     border-top: 4px solid var(--current_user_color);
     border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    animation: spin 1.5s linear infinite;
+    width: 22px;
+    height: 22px;
+    animation: spin 0.5s linear infinite;
     
-}.loadingSpin > img{
-    animation: spinInv 1.5s linear infinite;
 }
 
 @keyframes spin {
@@ -576,6 +576,7 @@ nav{
     background-color: var(--background_dark_color);
     gap: 16px;
     box-sizing: border-box;
+    
 }
 
 .closing{
@@ -699,4 +700,17 @@ nav{
     padding: 16px;
     border-radius: 16px;
     border: solid 1px var(--current_user_color);
+}
+
+.splashStart{
+    transition-duration: 0 !important;
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: var(--current_bg_color);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2010 !important;
 }

@@ -4,7 +4,7 @@ import forms
 import functions
 views_bp = blueprints.Blueprint('views', __name__)
 
-@views_bp.route('/', methods=["GET", "POST"])
+@views_bp.route('/', methods=["GET", "POST", "PUT"])
 def index():
   return functions.ver_login()
 

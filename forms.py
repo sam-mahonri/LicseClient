@@ -24,3 +24,14 @@ class RegisterForm (FlaskForm):
     validators.Regexp('^[0-9a-fA-F#]*$', message='O campo deve conter apenas caracteres hexadecimais, incluindo #.')], 
     default='#7c5dc5')
   age = IntegerField ('Idade', validators=[validators.DataRequired (), validators.NumberRange(min=13, message='A idade mínima para usar o Licse You é de 13 anos.')])
+
+class UpdateAccForm (FlaskForm):
+
+  fullname = StringField ('Fullname', validators=[validators.DataRequired (), validators.Length (min=3, max=50, message='O seu nome completo deve ter no máximo 50 caracteres, e no mínimo 3!')])
+
+  color = StringField ('Cor', validators=[
+    validators.DataRequired (message='Selecione uma cor na paleta de cores ou digite um código hexadecimal para sua cor preferida'), 
+    validators.Length (min=7, max=7, message='O código hexadecimal deve conter exatamente 7 caracteres incluindo o #, por exemplo: #e62169'),
+    validators.Regexp('^[0-9a-fA-F#]*$', message='O campo deve conter apenas caracteres hexadecimais, incluindo #.')], 
+    default='#7c5dc5')
+  age = IntegerField ('Idade', validators=[validators.DataRequired (), validators.NumberRange(min=13, message='A idade mínima para usar o Licse You é de 13 anos.')])

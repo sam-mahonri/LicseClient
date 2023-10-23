@@ -4,7 +4,7 @@
     </div>
     <div class="navComp"></div>
     <div class="scrVertical scrSlave" style="min-width: 330px !important;">
-        <form method="post" class="formAlone" onsubmit="showElement('loadingRegis')" action="">
+        <form method="post" class="formAlone" onsubmit="showElement('loadingAll');" action="">
 
             {{ form_update_acc.csrf_token }}
             <img src="/static/source/icon.svg" height="64px">
@@ -53,9 +53,15 @@
             
             <button type="submit" class="primaryBt">Atualizar <i class="fa-solid fa-pen-nib"></i></button>
         </form>
-        <button class="secondaryBt discretWarnBt" onclick="openPopDialog('Deletar sua conta?', 'Você não será capaz de recuperar suas conversas, isto é uma ação irreversível!', 'deleteAc(); closePopDialog(); document.getElementById(\'loadingAll\').classList.remove(\'hideElement\'); openMenu(\'acSets\');', 'normal')">
+        <button class="secondaryBt discretWarnBt" onclick="openPopDialog('Deletar sua conta?', 'Você não será capaz de recuperar suas conversas, isto é uma ação irreversível!', 'deleteAc(); closePopDialog(); document.getElementById(\'loadingAll\').classList.remove(\'hideElement\'); openMenu(\'acSets\');', 'danger')">
             <i class="fas fa-skull-crossbones"></i>
             Excluir conta
         </button>
     </div>
 </div>
+{% set opened = opened | default('') %}
+{% if opened == 'acUpdate' %}
+<script>
+    openMenu('acSets');
+</script>
+{% endif %}

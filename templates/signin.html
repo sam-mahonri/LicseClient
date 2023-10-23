@@ -8,6 +8,7 @@
 </head>
 <body>
     <div class="htvBody" style="background-image: url('/static/source/background_furry_sunflower_cdnme.png'); background-size: cover;">
+        {% include 'modules/splash.html' %}
         <div class="bannerBrand bannerAlone bannerExpand">
             <img src="/static/source/icon.svg" height="360px">
             <h1>Licse You</h1>
@@ -17,7 +18,7 @@
         <div class="bannerAlone bannerExpand blurBack">
             <div class="scrVertical scrSlave">
                 {% if status == 'LICSE_NONE' or status == 'LICSE_ERROR' %}
-                <form method="post" class="formAlone" action=""  onsubmit="showElement('loadingAuth')">
+                <form method="post" class="formAlone" action=""  onsubmit="showElement('loadingAll')">
                     {% if status == 'LICSE_ERROR'%}
                         <span class="discretErrorMessage">Email/Senha podem estar incorretos - Ou estamos enfrentando algum problema no nosso servidor</span>
                     {% endif %}
@@ -74,14 +75,7 @@
                     <button class="secondaryBt" onclick="window.location.href = '/logout'">Quero sair <i class="fa-solid fa-door-open"></i></button>
                 {% endif %}
             </div>
-            <div class="loadingAll hideElement" id="loadingAuth">
-                <span class="loadingSpot">
-                    <span class="loadingSpin">
-                        <img src="/static/source/icon.svg" height="36px">
-                    </span>
-                    Aguenta aí...
-                </span>
-            </div>
+            {% include 'modules/aguarde.html' %}
         </div>
         
         

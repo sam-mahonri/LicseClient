@@ -101,20 +101,30 @@ function openMenu(menuId){
     if(menu.classList.contains('hideElement')){
         menu.classList.remove('hideElement')
         menu.classList.add('openingLateral')
-        globalNav.classList.remove('hideElement')
-        globalNav.classList.remove('justFadeHide')
-        globalNav.classList.add('justFadeShow')
+        if (window.innerWidth <= 770){
+            globalNav.classList.remove('hideElement')
+            globalNav.classList.remove('justFadeHide')
+            globalNav.classList.add('justFadeShow')
+        }
+        
     }else{
         //item.classList.add('hideElement')
         menu.classList.remove('opening')
         menu.classList.add('closingLateral')
-        globalNav.classList.remove('justFadeShow')
-        globalNav.classList.add('justFadeHide')
+        if (window.innerWidth <= 770){
+            globalNav.classList.remove('justFadeShow')
+            globalNav.classList.add('justFadeHide')
+        }
+        
         setTimeout(() => {
             menu.classList.remove('closingLateral')
             menu.classList.add('hideElement')
-            globalNav.classList.add('hideElement')
-            globalNav.classList.remove('justFadeShow')
+
+            if (window.innerWidth <= 770){
+                globalNav.classList.add('hideElement')
+                globalNav.classList.remove('justFadeShow')
+            }
+            
             
         }, 300);
         
@@ -137,6 +147,11 @@ function openPopDialog(title, descr, action, type='normal'){
     globalObfs = document.getElementById('globalObfsPopDialog')
     popDial = document.getElementById('globalPopDialogArea')
 
+    if(type.toLowerCase() == 'danger'){
+        popDial.style.borderColor = 'var(--error_color)'
+        btAct.style.backgroundColor = 'var(--error_color)'
+    }
+
     globalObfs.classList.remove('hideElement')
     globalObfs.classList.add('justFadeShow')
     popDial.classList.add('opening')
@@ -156,3 +171,10 @@ function closePopDialog(){
         globalObfs.classList.remove('justFadeHide')
     }, 300);
 }
+
+setTimeout(() => {
+    document.getElementById('loadingAllPage').classList.add('justFadeHide');
+    setTimeout(() => {
+        document.getElementById('loadingAllPage').classList.add('hideElement');
+    }, 300);
+}, 300);

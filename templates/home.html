@@ -7,6 +7,11 @@
     <title>Licse You - Ambiente</title>
 </head>
 <body style="background-image: url('/static/source/background_furry_sunflower_cdnme.png'); background-size: cover;">
+    {% include 'modules/splash.html' %}
+    {% include 'modules/aguarde.html' %}
+    <script src="/static/scripts/fun.js"></script>
+    <script src="/static/scripts/req.js"></script>
+    
     {% include 'modules/nav.html' %}
     {% if emailver == True %}
     <div class="htvBody">
@@ -38,7 +43,7 @@
                 </button>
                 <p style="max-width: 400px;">Se este email é falso, não é seu, ou é um email temporário, exclua essa conta o mais breve possivel.</p>
                 
-                <button class="secondaryBt discretWarnBt" onclick="openPopDialog('Deletar sua conta?', 'Você não será capaz de recuperar suas conversas, isto é uma ação irreversível!', 'deleteAc(); closePopDialog(); document.getElementById(\'loadingAll\').classList.remove(\'hideElement\');', 'normal')">
+                <button class="secondaryBt discretWarnBt" onclick="openPopDialog('Deletar sua conta?', 'Você não será capaz de recuperar suas conversas, isto é uma ação irreversível!', 'deleteAc(); closePopDialog(); document.getElementById(\'loadingAll\').classList.remove(\'hideElement\');', 'danger')">
                     <i class="fas fa-skull-crossbones"></i>
                     Excluir conta
                 </button>
@@ -53,24 +58,37 @@
     
     {% include 'modules/beta_warn.html' %}
 
-    <div class="loadingAll hideElement" style="top: 0px; left: 0px; z-index: 1001;" id="loadingAll">
-        <span class="loadingSpot">
-            <span class="loadingSpin">
-                <img src="/static/source/icon.svg" height="36px">
-            </span>
-            Aguenta aí...
-        </span>
-    </div>
-
-    <div class="notifArea hideElement" id="notifArea">
-        <span class="discretErrorMessage hideElement" id="notifAreaErrorMessage">Mensagem</span>
-        <span class="discretSuccessMessage hideElement" id="notifAreaSuccessMessage">Mensagem</span>
-    </div>
-    <script src="/static/scripts/fun.js"></script>
-    <script src="/static/scripts/req.js"></script>
+    {% include 'modules/notif.html' %}
+    
     <script>
-        callColor("{{ session.get('favColor', '#444444') }}");
+        callColor("{{ session.get('favColor', '#7c5dc5') }}");
     </script>
     {% include 'modules/pop_dialog.html' %}
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+ 
+            {% for category, message in messages %}
+                <script>
+                    notifArea('{{ category }}', '{{ message }}')
+                </script>
+            {% endfor %}
+ 
+        {% endif %}
+    {% endwith %}
+    
+    <!-- 
+    {% set status = status | default('') %}
+    {% if status == 'LICSE_SUCCESS' %}
+    <script>
+        notifArea('SUCCESS', 'Ação conluída com êxito')
+    </script>
+    {% elif status == 'LICSE_ERROR' %}
+    <script>
+        notifArea('ERROR', 'Ocorreu algum erro ao completar a ação!')
+    </script>
+    {% endif %}
+    {% set status = '' %}
+    -->
 </body>
 </html>

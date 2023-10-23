@@ -8,11 +8,11 @@
 </head>
 <body>
     <div class="htvBody" style="background-image: url('/static/source/background_furry_sunflower_cd.png'); background-size: cover; background-color: var(--current-user-color);">
-        
+        {% include 'modules/splash.html' %}
         <div class="bannerAlone bannerExpand blurBack">
             <div class="scrVertical scrSlave">
                 {% if status == 'LICSE_NONE' or status == 'LICSE_ERROR' %}
-                <form method="post" class="formAlone" onsubmit="showElement('loadingRegis')" action="">
+                <form method="post" class="formAlone" onsubmit="showElement('loadingAll')" action="">
                     {% if status == 'LICSE_ERROR'%}
                         <span class="discretErrorMessage">Este email já foi cadastrado! - Ou estamos enfrentando algum problema no nosso servidor</span>
                     {% endif %}
@@ -108,14 +108,7 @@
                     <button class="secondaryBt" onclick="window.location.href = '/logout'">Quero sair <i class="fa-solid fa-door-open"></i></button>
                 {% endif %}    
             </div>
-            <div class="loadingAll hideElement" id="loadingRegis">
-                <span class="loadingSpot">
-                    <span class="loadingSpin">
-                        <img src="/static/source/icon.svg" height="36px">
-                    </span>
-                    Aguarde...
-                </span>
-            </div>
+            {% include 'modules/aguarde.html' %}
         </div>
         <div class="bannerBrand bannerAlone bannerExpand">
             <img src="/static/source/icon.svg" height="360px">
@@ -125,6 +118,9 @@
         </div>
         
     </div>
+    
+    
     <script src="/static/scripts/fun.js"></script>
+    
 </body>
 </html>

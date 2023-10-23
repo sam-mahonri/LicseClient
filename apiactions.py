@@ -76,8 +76,8 @@ def send_email_ver():
         return 'LICSE_ERROR'
     
     data = {
-        "token": session['userToken'],
-        "userId": session['userId']
+        "token": session.get('userToken', ''),
+        "userId": session.get('userId', '')
     }
 
     json_data = json.dumps(data)
@@ -99,8 +99,8 @@ def get_user_info():
         return {'LICSE_ERROR':'Ocorreu um erro'}
     
     data = {
-        "token": session['userToken'],
-        "userId": session['userId']
+        "token": session.get('userToken', ''),
+        "userId": session.get('userId', '')
     }
 
     json_data = json.dumps(data)
@@ -139,8 +139,8 @@ def verified_email():
         return False
     
     data = {
-        "token": session['userToken'],
-        "userId": session['userId']
+        "token": session.get('userToken', ''),
+        "userId": session.get('userId', '')
     }
 
     json_data = json.dumps(data)
@@ -163,8 +163,8 @@ def deleteac():
         return 'LICSE_ERROR'
     
     data = {
-        "token": session['userToken'],
-        "userId": session['userId']
+        "token": session.get('userToken', ''),
+        "userId": session.get('userId', '')
     }
 
     json_data = json.dumps(data)
@@ -191,8 +191,8 @@ def updateac(fullname, age, color):
             "age": age,
             "favColor": color
         },
-        "token": session['userToken'],
-        "userId": session['userId']
+        "token": session.get('userToken', ''),
+        "userId": session.get('userId', '')
     }
 
     json_data = json.dumps(data)

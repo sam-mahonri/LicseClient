@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/static/styles/gui.css">
     <title>Licse You - Ambiente</title>
 </head>
-<body style="background-image: url('/static/source/background_furry_sunflower_cdnme.png'); background-size: cover;">
+<body style="background-image: url('/static/source/background_furry_sunflower_home.png'); background-size: cover;">
     {% include 'modules/splash.html' %}
     {% include 'modules/aguarde.html' %}
     <script src="/static/scripts/fun.js"></script>
@@ -16,13 +16,12 @@
     {% if emailver == True %}
     <div class="htvBody">
         {% include 'modules/chat_list.html' %}
-        <div class=" bannerAlone bannerExpand">
+        <div class=" bannerAlone bannerExpand hideElement">
             <img src="/static/source/icon.svg" height="360px">
             <h1>Licse You</h1>
             <h3> {{ session.get('fullName', '') }} </h3>
-            <h6>© 2023 Licse Project - by Sam Mahonri and IFSertãoPE</h6>
-             
         </div>
+        {% include 'modules/chat_area.html' %}
         {% include 'modules/account.html' %}
     </div>
     {% else %}

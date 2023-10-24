@@ -58,7 +58,11 @@
                         <button class="colorPica orange" onclick="verifyColor(this)" type="button"></button>
                         <button class="colorPica blue" onclick="verifyColor(this)" type="button"></button>
                         <button class="colorPica red" onclick="verifyColor(this)" type="button"></button>
-                        <input type="color" style="width: 32px; height: 32px; cursor: pointer;" onchange="callColor(this.value); updateInput(this.value)">
+                        <label class="customColorPica">
+                            <i class="fa-solid fa-palette"></i>
+                            <input type="color" style="width: 32px; height: 32px; cursor: pointer;" onchange="callColor(this.value); updateInput(this.value)">
+                        </label>
+                        
                     </div>
                     <div class="campoFlutuante">
                         

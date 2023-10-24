@@ -37,6 +37,7 @@ def register(email, password, fullname, color, age):
         session['userId'] = response_data['userId']
         return 'LICSE_SUCCESS'
     else:
+        session['expired'] = True
         log_out()
         return 'LICSE_ERROR'
 
@@ -58,6 +59,7 @@ def log_in(email, password):
         get_user_info()
         return 'LICSE_SUCCESS'
     else:
+        session['expired'] = True
         log_out()
         return 'LICSE_ERROR'
 
@@ -88,6 +90,7 @@ def send_email_ver():
         response_data = response.json()
         return 'LICSE_SUCCESS'
     else:
+        session['expired'] = True
         log_out()
         
         return 'LICSE_ERROR'
@@ -153,6 +156,7 @@ def verified_email():
         else: outp = False
         return outp
     else:
+        session['expired'] = True
         log_out()
         return False
 
@@ -176,6 +180,7 @@ def deleteac():
             if json_out['licseError'] == 'SUCCESS_DELETE_USER_REGISTER': return 'LICSE_SUCCESS'
             elif json_out['licseError'] == 'ERROR_DELETE_USER_REGISTER': return 'LICSE_ERROR'
     else:
+        session['expired'] = True
         log_out()
         return 'LICSE_ERROR'
     
@@ -209,9 +214,9 @@ def updateac(fullname, age, color):
                 session['age'] = age
                 return 'LICSE_SUCCESS'
             elif json_out['licseError'] == 'ERROR_USER_UPDATED':
-
+                session['expired'] = True
                 return 'LICSE_ERROR'
     else:
-
+        session['expired'] = True
         log_out()
         return 'LICSE_ERROR'

@@ -14,6 +14,11 @@ def signin():
       session['email'] = email
       session['password'] = password
       session.permanent = True
+    else:
+      session.permanent = False
+      session['keeplogged'] = 'off'
+      session['email'] = ''
+      session['password'] = ''
     
     status = apiactions.log_in(email, password)
 

@@ -9,6 +9,11 @@ def create_app():
   app.debug = getenv('LICSE_FLASK_DEBUG')
   app.config['FLASK_ENV'] = getenv('LICSE_FLASK_ENV')
   app.config['SECRET_KEY'] = getenv('LICSE_SECRET_KEY')
+  app.config['SESSION_TYPE'] = 'filesystem'
+  app.config['SESSION_PERMANENT'] = False
+  app.config['SESSION_USE_SIGNER'] = True
+  app.config['SESSION_FILE_DIR'] = '/tmp/flask_session'
+  
   app.permanent_session_lifetime = timedelta(days=14)  # Define o tempo de expiração para 7 dias
   from routes import views_routes, service_routes
 

@@ -36,3 +36,8 @@ class UpdateAccForm (FlaskForm):
     validators.Regexp('^[0-9a-fA-F#]*$', message='O campo deve conter apenas caracteres hexadecimais, incluindo #.')], 
     default='#7c5dc5')
   age = IntegerField ('Idade', validators=[validators.DataRequired (), validators.NumberRange(min=13, message='A idade mínima para usar o Licse You é de 13 anos.')])
+
+class CreateChat (FlaskForm):
+  title = StringField ('Titulo', validators=[validators.DataRequired (), validators.Length (min=5, max=25, message="O título do chat precisa ter no mínimo 5 caracteres e no máximo 25!")])
+
+ 

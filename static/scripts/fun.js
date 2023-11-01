@@ -1,3 +1,9 @@
+
+
+function setCurChat(cur){
+    curChat = cur
+}
+
 function showElement(id){
     element = document.getElementById(id)
     element.classList.add('fadeIn')
@@ -178,3 +184,26 @@ setTimeout(() => {
         document.getElementById('loadingAllPage').classList.add('hideElement');
     }, 300);
 }, 300);
+
+
+
+function selectedBtChat(btId, open=true){
+    if (currentBtChat != ''){
+        var bt = document.getElementById(currentBtChat)
+        if(bt !== null){
+            bt.classList.remove('activeChatBt')
+        }
+        
+        
+    }
+    
+    theBt = document.getElementById(btId)
+    theBt.classList.add('activeChatBt')
+    currentBtChat = btId
+    curChat = currentBtChat.slice(3);
+    
+    if(open){
+        loadCurrentChatInView();
+    }
+
+}

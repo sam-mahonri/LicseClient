@@ -1,58 +1,45 @@
 <div class="bannerAlone bannerExpand messageBannerArea" id="openedChat">
-
     <div class="bannerExpand scrVertical scrSlave" style="padding: 56px 0px 16px 0px !important; align-items: end !important; max-width: 880px !important;">
+        <img src="static/source/icon.svg" height="92px" width="100%" style="margin-top: 32px; margin-bottom: -16px;">
+        <h1 id='bigTitleChat'>Licse You</h1>
+        <h4 id='chatTitle'>Bem-vindo! Inicie uma nova conversa para começar!</h4>
         <div class="messageArea" id="messageArea">
-            <div class="senderMessage">
+
+            <div class="licseMessage" id="messageId_00">
                 <span>
-                    <p>Texto</p>
+                    <p>Inicie uma nova conversa no menu lateral esquerdo!</p>
                 </span>
+                <button id="report" class="miniBt"><i class="fa-solid fa-bug"></i></button>
             </div>
-            <div class="senderMessage">
+            <div class="licseMessage" id="messageId_01">
                 <span>
-                    <p>Texto</p>
+                    <p>Este é o inicio desta conversa! Pergunte-me o que quiser!</p>
                 </span>
-            </div>
-            <div class="senderMessage">
-                <span>
-                    <p>Texto</p>
-                </span>
-            </div>
-            <div class="senderMessage">
-                <span>
-                    <p>Texto</p>
-                </span>
-            </div>
-            <div class="senderMessage">
-                <span>
-                    <p>Texto</p>
-                </span>
-            </div>
-            <div class="senderMessage">
-                <span>
-                    <p>Texto</p>
-                </span>
-            </div>
-            <div class="senderMessage">
-                <span>
-                    <p>Texto</p>
-                </span>
-            </div>
-            <div class="senderMessage">
-                <span>
-                    <p>Texto</p>
-                </span>
+                <button id="report" class="miniBt"><i class="fa-solid fa-bug"></i></button>
             </div>
         </div>
     </div>
     
     <div class="promptInput" style="max-width: 880px !important;">
-        <form class="inlineForm">
+        <span class="commandsPrompt scrHorizontal">
+            <button class="secondaryBt" onclick="setFuncType('SUMMARIZE')">
+                <i class="fa-solid fa-file"></i> Fazer resumo
+            </button>
+            <button class="secondaryBt" onclick="setFuncType('WEB')">
+                <i class="fa-solid fa-magnifying-glass"></i> Internet
+            </button>
+            <button class="secondaryBt" onclick="setFuncType('NOTE')">
+                <i class="fa-solid fa-notes-medical"></i> Anotações
+            </button>
+        </span>
+        <form class="inlineForm" onsubmit="processarPrompt(event)">
 
-            <input id="prompt" type="text" name="prompt" placeholder="Fale com Licse..." value="" required class="inputPrompt">
+            <input id="promptText" type="text" name="prompt" placeholder="Fale com Licse..." value="" required class="inputPrompt">
 
-            <button type="submit" class="primaryBt">Enviar<i class="fas fa-paper-plane"></i></button>
+            <button type="submit" class="primaryBt" id="sendPromptBt">Enviar<i class="fas fa-paper-plane"></i></button>
+            <span class="loadingSpin hideElement" id="wtngSpin"></span>
         </form>
-        <p class="discretText">O Licse aprende com a comunidade, pode gerar informações tendenciosas</p>
+        <p class="discretText">O Licse You é um facilitador de pesquisa com base em inteligência artifical própria e está em testes, portanto, pode gerar respostas FALSAS e/ou INAPROPRIADAS com base na pesquisa da web.</p>
     </div>
     
 </div>

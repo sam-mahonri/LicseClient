@@ -123,6 +123,7 @@ def get_user_info():
         session['age'] = response_data.get('age', '')
         session['points'] = response_data.get('points', '')
         session['redflags'] = response_data.get('redflags', '')
+        session['chats'] = response_data.get('chats', {})
         session['expired'] = False
         return response_data
     else:
@@ -133,6 +134,7 @@ def get_user_info():
         session['age'] = ''
         session['points'] = ''
         session['redflags'] = ''
+        session['chats'] = {}
         session['expired'] = True
         return {'LICSE_ERROR':'Ocorreu um erro'}
     
@@ -157,8 +159,11 @@ def verified_email():
         return outp
     else:
         session['expired'] = True
-        log_out()
-        return False
+        if session.get('keeplogged', 'off') == 'on':
+            log_in(session.get('email', ''), session.get('password', ''))
+            verified_email()
+        else:
+            return False
 
 def deleteac():
     url = LICSE_DELETE_AC
@@ -181,8 +186,11 @@ def deleteac():
             elif json_out['licseError'] == 'ERROR_DELETE_USER_REGISTER': return 'LICSE_ERROR'
     else:
         session['expired'] = True
-        log_out()
-        return 'LICSE_ERROR'
+        if session.get('keeplogged', 'off') == 'on':
+            log_in(session.get('email', ''), session.get('password', ''))
+            verified_email()
+        else:
+            return 'LICSE_ERROR'
     
 def updateac(fullname, age, color):
     url = LICSE_UPDATE_AC
@@ -214,6 +222,136 @@ def updateac(fullname, age, color):
                 session['age'] = age
                 return 'LICSE_SUCCESS'
             elif json_out['licseError'] == 'ERROR_USER_UPDATED':
+                session['expired'] = True
+                return 'LICSE_ERROR'
+    else:
+        session['expired'] = True
+        if session.get('keeplogged', 'off') == 'on':
+            log_in(session.get('email', ''), session.get('password', ''))
+            updateac()
+        else:
+            return 'LICSE_ERROR'
+
+def create_chat(title):
+    url = LICSE_CREATE_CHAT
+
+    if not 'userToken' in session and "userId" in session:
+        return 'LICSE_ERROR'
+    
+    data = {
+        "title": title,
+        "token": session.get('userToken', ''),
+        "userId": session.get('userId', '')
+    }
+
+    json_data = json.dumps(data)
+
+    response = requests.post(url, data=json_data, verify=LICSE_VERIFY_SSL, headers=headers)
+
+    if response.status_code == 200:
+        json_out = response.json()
+        
+        if "licseError" in json_out:
+            if json_out['licseError'] == 'SUCCESS_CREATE_CHAT':
+                session['current_chat'] = json_out.get('chatId', 'noId_FATAL')
+                return 'LICSE_SUCCESS'
+            elif json_out['licseError'] == 'ERROR_CREATE_CHAT':
+                session['expired'] = True
+                session['current_chat'] = ''
+                return 'LICSE_ERROR'
+    else:
+        session['expired'] = True
+        if session.get('keeplogged', 'off') == 'on':
+            log_in(session.get('email', ''), session.get('password', ''))
+            create_chat()
+        else:
+            return 'LICSE_ERROR'
+
+def delete_chat(chatId):
+    url = LICSE_DELETE_CHAT
+
+    if not 'userToken' in session and "userId" in session:
+        return 'LICSE_ERROR'
+    
+    data = {
+        "chatId": chatId,
+        "token": session.get('userToken', ''),
+        "userId": session.get('userId', '')
+    }
+
+    json_data = json.dumps(data)
+
+    response = requests.delete(url, data=json_data, verify=LICSE_VERIFY_SSL, headers=headers)
+
+    if response.status_code == 200:
+        json_out = response.json()
+        
+        if "licseError" in json_out:
+            if json_out['licseError'] == 'SUCCESS_CHAT_DELETE':
+                return 'LICSE_SUCCESS'
+            elif json_out['licseError'] == 'ERROR_CHAT_DELETE':
+                session['expired'] = True
+                return 'LICSE_ERROR'
+    else:
+        session['expired'] = True
+        log_out()
+        return 'LICSE_ERROR'
+
+def licse_prompt(prompt, pType="WEB"):
+    url = LICSE_PROMPT
+
+    if not 'userToken' in session and "userId" in session:
+        return 'LICSE_ERROR'
+    
+    data = {
+        "prompt": prompt,
+        "type": pType,
+        "token": session.get('userToken', ''),
+        "userId": session.get('userId', '')
+    }
+
+    json_data = json.dumps(data)
+
+    response = requests.get(url, data=json_data, verify=LICSE_VERIFY_SSL, headers=headers)
+
+    if response.status_code == 200:
+        json_out = response.json()
+        
+        if "licseError" in json_out:
+            print(json_out['licseError'])
+            return 'LICSE_ERROR'
+
+        return json_out
+    else:
+        session['expired'] = True
+        log_out()
+        return 'LICSE_ERROR'
+    
+def addmsg(msg, sender, chatId):
+    url = LICSE_ADDMSG_CHAT
+
+    if not 'userToken' in session and "userId" in session:
+        return 'LICSE_ERROR'
+    
+    data = {
+        "sender":sender,
+        "message":msg,
+        "chatId": chatId,
+        "token": session.get('userToken', ''),
+        "userId": session.get('userId', '')
+    }
+
+    json_data = json.dumps(data)
+
+    response = requests.post(url, data=json_data, verify=LICSE_VERIFY_SSL, headers=headers)
+
+    if response.status_code == 200:
+        json_out = response.json()
+        
+        if "licseError" in json_out:
+            if json_out['licseError'] == 'SUCCESS_MSG_SAVED':
+                return 'LICSE_SUCCESS'
+            elif json_out['licseError'] == 'ERROR_MSG_SAVED':
                 session['expired'] = True
                 return 'LICSE_ERROR'
     else:

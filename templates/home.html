@@ -9,18 +9,14 @@
 <body style="background-image: url('/static/source/background_furry_sunflower_home.png'); background-size: cover;">
     {% include 'modules/splash.html' %}
     {% include 'modules/aguarde.html' %}
-    <script src="/static/scripts/fun.js"></script>
     <script src="/static/scripts/req.js"></script>
+    <script src="/static/scripts/fun.js"></script>
     
+    <script src="/static/scripts/chat.js"></script>
     {% include 'modules/nav.html' %}
     {% if emailver == True %}
     <div class="htvBody">
         {% include 'modules/chat_list.html' %}
-        <div class=" bannerAlone bannerExpand hideElement">
-            <img src="/static/source/icon.svg" height="360px">
-            <h1>Licse You</h1>
-            <h3> {{ session.get('fullName', '') }} </h3>
-        </div>
         {% include 'modules/chat_area.html' %}
         {% include 'modules/account.html' %}
     </div>

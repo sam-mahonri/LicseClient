@@ -54,7 +54,7 @@
                 {% endfor %}
             {% endif %}
             
-            <button type="submit" class="primaryBt">Atualizar <i class="fa-solid fa-pen-nib"></i></button>
+            <button type="submit" class="primaryBt" name="updateAccountBt">Atualizar <i class="fa-solid fa-pen-nib"></i></button>
         </form>
         <button class="secondaryBt discretWarnBt" onclick="openPopDialog('Deletar sua conta?', 'Você não será capaz de recuperar suas conversas, isto é uma ação irreversível!', 'deleteAc(); closePopDialog(); document.getElementById(\'loadingAll\').classList.remove(\'hideElement\'); openMenu(\'acSets\');', 'danger')">
             <i class="fas fa-skull-crossbones"></i>

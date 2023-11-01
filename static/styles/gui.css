@@ -67,7 +67,7 @@ h4 {
     border-radius: 8px;
     position: fixed;
     bottom: 16px;
-    left: 16px;
+    right: 16px;
     font-size: 7pt;
 }
 
@@ -76,15 +76,18 @@ h4 {
 }
 
 .previewWarn:hover {
-    opacity: 0.7;
+    opacity: 1;
+    background-color: var(--background_dark_color);
 }
 
 * {
+    scroll-behavior: smooth; 
     color: var(--current_txt_color);
     font-family: 'Geologica', sans-serif;
     transition-duration: 0.3s;
     text-align: center;
     font-size: 11pt;
+    
 }
 
 
@@ -219,6 +222,7 @@ input {
     gap: 8px;
     align-items: center;
     justify-content: center;
+
 }
 
 .campoFlutuante>input:focus+label,
@@ -259,6 +263,7 @@ input {
     display: flex;
     flex-direction: row;
     gap: 8px;
+    align-items: center;
 }
 
 .invalidInput {
@@ -301,6 +306,10 @@ input[type="color"] {
     border: none;
     cursor: pointer;
     border-radius: var(--round_value);
+    white-space: nowrap;
+}.primaryBt > *,
+.secondaryBt > *{
+    white-space: nowrap;
 }
 
 .primaryBt:hover,
@@ -408,10 +417,34 @@ input[type="color"] {
     border: 4px solid var(--current_user_color_2);
     border-top: 4px solid var(--current_user_color);
     border-radius: 50%;
-    width: 22px;
-    height: 22px;
-    animation: spin 0.5s linear infinite;
+    min-width: 16px;
+    min-height: 16px;
+    max-width: 16px;
+    max-height: 16px;
+    animation: spin 0.3s linear infinite;
 
+}
+
+.loadingSpinMini{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid var(--current_user_color_2);
+    border-top: 4px solid var(--current_user_color);
+    border-radius: 50%;
+    min-width: 10px;
+    min-height: 10px;
+    max-width: 10px;
+    max-height: 10px;
+    animation: spin 0.3s linear infinite;
+}
+
+#cloudStatus{
+    display: flex;
+    gap: 8px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 @keyframes spin {
@@ -494,6 +527,7 @@ input[type="color"] {
 
 *::-webkit-scrollbar {
     width: 4px;
+    height: 4px;
     /* largura da barra de rolagem inteira */
 }
 
@@ -503,8 +537,12 @@ input[type="color"] {
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: var(--current_user_color);
-    /* cor do scroll thumb */
+    background-image: linear-gradient(to bottom,
+        transparent,
+        var(--current_user_color),
+        transparent);
+    
+    border-radius: 6px;
 }
 
 .discretErrorMessage {
@@ -567,7 +605,9 @@ nav {
     box-shadow: 0 0 16px var(--background_dark_color_2);
 }
 
-
+.scrHorizontal{
+    overflow-x: scroll;
+}
 
 .pseudoNav {
     display: flex;
@@ -931,8 +971,116 @@ nav {
     padding: 8px;
     border-radius: var(--round_value);
     border-bottom-right-radius: 2px;
+    max-width: 600px;
 }
 
 .senderMessage > span > p{
+    text-align: left;
     margin: 0px;
+}
+
+.licseMessage{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    height: fit-content;
+    width: 100%;
+}
+
+.licseMessage > span{
+    background-color: var(--current_bg_color);
+    border: solid 1px var(--current_user_color);
+    padding: 8px;
+    border-radius: var(--round_value);
+    border-bottom-left-radius: 2px;
+    max-width: 600px;
+}
+
+.licseMessage > span > p{
+    margin: 0px;
+    text-align: left;
+}
+
+.miniBt{
+    cursor: pointer;
+    margin-left: 8px;
+    border-radius: var(--round_value);
+    background-color: transparent;
+    border: none;
+    padding: 8px;
+
+}.miniBt:hover{
+    background-color: var(--current_user_color);
+}
+
+.aloneLoadMsg{
+    margin-top: 16px;
+    border-radius: var(--round_value);
+    background-color: var(--sec_dark_color);
+    padding: 16px;
+}
+
+.oneChatBt{
+    cursor: pointer;
+    flex: 1;
+    padding: 16px;
+    background-color: var(--current_user_color_2);
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    border: none;
+    border-radius: var(--round_value);
+    gap: 8px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}.oneChatBt:hover{
+    background-color: var(--current_user_color);
+}
+
+.chatSelec{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+}.chatSelec > .commandsChat{
+    overflow: hidden;
+    max-width: 0px;
+
+}.chatSelec:hover > .commandsChat{
+    max-width: 92px;
+
+}
+
+.commandsChat{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.activeChatBt{
+    background-color: var(--current_user_color) !important;
+    box-shadow: 0 0 16px var(--current_user_color);
+}
+
+#bigTitleChat{
+    width: 100%;
+    text-align: center;
+
+}
+
+#chatTitle{
+    width: 100%;
+    text-align: center;
+}
+
+.commandsPrompt{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 4px;
+    gap: 8px;
 }

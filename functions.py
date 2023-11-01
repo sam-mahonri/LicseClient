@@ -1,4 +1,4 @@
-from flask import blueprints, redirect, render_template, send_file, request, session, flash
+from flask import blueprints, redirect, render_template, send_file, request, session, flash, url_for, jsonify
 import apiactions
 import forms
 
@@ -54,25 +54,42 @@ def signup():
 
 def ver_login():
   form_update_acc = forms.UpdateAccForm()
+  form_create_chat = forms.CreateChat()
   resposta = apiactions.is_logged_in()
   email_verified = apiactions.verified_email()
 
   if request.method == 'POST':
+    if 'createChatBt' in request.form:
+      if form_create_chat.validate_on_submit():
+        title = request.form.get('title', '')
+        status = apiactions.create_chat(title)
+        if status == 'LICSE_SUCCESS':
+          apiactions.is_logged_in()
+          form_create_chat = forms.CreateChat()
+          flash('Conversa criada com êxito!', 'SUCCESS')
+          session['flow_opened'] = 'chatList'
+          return redirect('/')
+        else:
+          flash('Falha ao criar conversa! Tente: Fazer login novamente ou tentar mais tarde.', 'ERROR')
+          session['flow_opened'] = ''
+          return render_template('home.html', session=session, emailver=email_verified, form=form_update_acc, form_update_acc=form_update_acc, form_create_chat=form_create_chat, opened='chatList')
+      
+    elif 'updateAccountBt' in request.form:
+      if form_update_acc.validate_on_submit():
+        fullname = request.form.get('fullname', '')
+        color = request.form.get('color', '#7c5dc5')
+        age = request.form.get('age', '13')
+        status = apiactions.updateac(fullname, age, color)
+        if status == 'LICSE_SUCCESS':
+          
+          flash('Conta atualizada com êxito!', 'SUCCESS')
+        else:
+          flash('Falha ao atualizar os dados da conta!', 'ERROR')
 
-    if form_update_acc.validate_on_submit():
-      fullname = request.form.get('fullname', '')
-      color = request.form.get('color', '#7c5dc5')
-      age = request.form.get('age', '13')
-      status = apiactions.updateac(fullname, age, color)
-      if status == 'LICSE_SUCCESS':
-        flash('Conta atualizada com êxito!', 'SUCCESS')
+        return redirect('/')
       else:
-        flash('Falha ao atualizar os dados da conta!', 'ERROR')
-
-      return redirect('/')
-    else:
-      return render_template('home.html', session=session, emailver=email_verified, form=form_update_acc, form_update_acc=form_update_acc, opened='acUpdate')
-  
+        return render_template('home.html', session=session, emailver=email_verified, form=form_update_acc, form_update_acc=form_update_acc, form_create_chat=form_create_chat, opened='acUpdate')
+    
   if not resposta:
     if session.get('keeplogged', 'off') == 'on':
 
@@ -83,7 +100,7 @@ def ver_login():
 
     return redirect('/signin')
   else:
-    return render_template('home.html', session=session, emailver=email_verified, form=form_update_acc, form_update_acc=form_update_acc)
+    return render_template('home.html', session=session, emailver=email_verified, form_update_acc=form_update_acc, form_create_chat=form_create_chat)
   
 def sendvemail():
   result = apiactions.send_email_ver()
@@ -91,4 +108,29 @@ def sendvemail():
 
 def deleteac():
   result = apiactions.deleteac()
+  return result
+
+def deletechat():
+  result = apiactions.delete_chat(request.args.get('chatId'))
+  return result
+
+def getchats():
+  print(session.get('chats', {}))
+  return jsonify(session.get('chats', {}))
+
+def setcurchat():
+  session['current_chat'] = request.args.get('chatId')
+  return 'OK'
+
+def licseprompt():
+  prompt = request.args.get('prompt')
+  pType = request.args.get('type')
+  result = apiactions.licse_prompt(prompt=prompt, pType=pType)
+  return result
+
+def addmsg():
+  msg = request.args.get('msg')
+  sender = request.args.get('sender')
+  chatid = request.args.get('chatId')
+  result = apiactions.addmsg(msg=msg, sender=sender, chatId=chatid)
   return result

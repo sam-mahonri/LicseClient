@@ -10,6 +10,11 @@
         <button class="secondaryBt" onclick="openMenu('chatList')">Conversas <i class="fas fa-comment-alt"></i></button>
     {% endif %}
     <span class="bannerExpand"></span>
+    <span class="discrSave" id="cloudStatus">
+        Salvo
+        <i class="fa-solid fa-cloud"></i>
+        
+    </span>
     <button class="secondaryBt" onclick="openPop('userMenuPop', this)">{{ session.get('fullName', '').split(' ')[0] }} <i class="fa-regular fa-user"></i></button>
     <!-- <i class="fa-regular fa-user"></i> -->
     <!-- <i class="fa-solid fa-user"></i> -->

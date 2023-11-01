@@ -5,7 +5,60 @@
     <div class="navComp"></div>
     <div class="scrVertical scrSlave" style="min-width: 330px !important;">
         <img src="/static/source/lenny_licse.svg">
-        Você não possui nenhuma conversa ainda...<br>Converse com o Licse agora!
-        <button class="primaryBt">Nova conversa <i class="fas fa-plus-circle"></i></button>
+        {% if session.get('chats', {}) == {} %}
+            
+            <p>Você não possui nenhuma conversa ainda...</p>
+            
+            
+        {% endif %}
+        <label>Inicie uma nova conversa</label>
+        <form method="post" class="inlineForm" onsubmit="showElement('loadingAll'); document.getElementById('loadingAll').innerHTML += '<span class=\' aloneLoadMsg\'>Iniciando conversa...</span>'">
+            
+            {{ form_create_chat.csrf_token }}
+
+            <input type="text" name="title" id="title" placeholder="Título da conversa" value="{{ request.form.get('title', '') }}" required class="{{ 'invalidInput' if form_create_chat.title.errors else '' }} inputPrompt" style="margin-bottom: 0px !important;">
+
+            <button type="submit" class="primaryBt" id="createNewChatBt" name="createChatBt"><i class="fa-solid fa-circle-plus"></i></button>
+        </form>
+        {% if form_create_chat.title.errors %}
+            {% for error in form_create_chat.title.errors %}
+                <div class="discretErrorMessage">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+        
+        {% if not session.get('chats', {}) == {}%}
+        <div class="divider"></div>
+            {% for chat in session.get('chats', {})|reverse %}
+                <div class="chatSelec" id="{{ chat }}">
+                    <button class="oneChatBt" id="bt_{{ chat }}" onclick="selectedBtChat(this.id); curChat = this.parentNode.id; selectChatSession(curChat); userShowCuChat(curChat); ">
+                        <i class="fa-regular fa-comments"></i>
+                        {{ session['chats'][chat].get('chatTitle', '') }}
+                    </button>
+                    <span class="commandsChat">
+                        <button class="miniBt" onclick="curChat = this.parentNode.parentNode.id; console.log(curChat); openPopDialog('Excluir chat?', 'Você não será capaz de recuperar suas conversas, isto é uma ação irreversível!', 'deleteChat(curChat); closePopDialog(); document.getElementById(\'loadingAll\').classList.remove(\'hideElement\'); curChat = currentBtChat; selectChatSession(curChat);', 'danger');">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </span>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 </div>
+
+{% set opened = session['flow_opened'] | default('') %}
+{% if opened == 'chatList' %}
+<script>
+    openMenu('chatList');
+</script>
+{% endif %}
+
+{% set curChat = session['current_chat'] | default('') %}
+{% if curChat != '' %}
+<script>
+    selectedBtChat("bt_" + "{{ curChat }}", open=false);
+    document.getElementById('loadingAll').classList.remove('hideElement');
+    getSessionChats();
+    
+</script>
+{% endif %}
+
